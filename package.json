@@ -1,0 +1,25 @@
+{
+  "name": "console-blockchain-checker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./ts_build/index.js",
+  "scripts": {
+    "start": "npm run tsc && node ts_build/index.js",
+    "tsc": "tsc"
+  },
+  "author": "Terlibin Oleg",
+  "license": "ISC",
+  "dependencies": {
+    "bitcore-p2p": "8.25.12",
+    "bitcore-p2p-cash": "8.25.10",
+    "bitcore-p2p-doge": "8.25.10",
+    "@ducatus/bitcore-p2p": "8.9.1",
+    "readline-sync": "^1.4.10"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.1",
+    "@types/readline-sync": "^1.4.4",
+    "ts": "^0.2.2",
+    "typescript": "^4.4.2"
+  }
+}
