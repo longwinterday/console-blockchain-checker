@@ -2,7 +2,7 @@
   "name": "console-blockchain-checker",
   "version": "1.0.0",
   "description": "",
-  "main": "./ts_build/index.js",
+  "main": "./ts_build/index",
   "scripts": {
     "start": "npm run tsc && node ts_build/index.js",
     "tsc": "tsc"

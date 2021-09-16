@@ -1,14 +1,18 @@
-import Messages from './messages';
+import Messages from '../modules/messages';
 import Peer from '../modules/peer';
+const Btc = require('bitcore-p2p');
+const Cash = require('bitcore-p2p-cash');
+const Doge = require('bitcore-p2p-doge');
+const Ducatus = require('@ducatus/bitcore-p2p');
 
-export default class ProgtramInterface {
+export default class ProgramInterface {
 
     public modules: { name: string, peer: any }[] = [
-        { name: 'Bitcoin', peer: require('bitcore-p2p').Peer }, 
-        { name: 'Bitcoin Cash', peer: require('bitcore-p2p-cash').Peer }, 
-        { name: 'Doge', peer: require('bitcore-p2p-doge').Peer }, 
-        { name: 'LiteCoin', peer: require('bitcore-p2p').Peer }, 
-        { name: 'Ducatus', peer: require('@ducatus/bitcore-p2p').Peer }
+        { name: 'Bitcoin', peer: Btc.Peer }, 
+        { name: 'Bitcoin Cash', peer: Cash.Peer }, 
+        { name: 'Doge', peer: Doge.Peer }, 
+        { name: 'LiteCoin', peer: Btc.Peer }, 
+        { name: 'Ducatus', peer: Ducatus.Peer }
     ];
  
     public async start() {

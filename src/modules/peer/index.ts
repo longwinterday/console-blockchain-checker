@@ -1,3 +1,5 @@
+import Messages from '../messages';
+
 export default abstract class Peer {
 
     public static check(option: any) {
@@ -24,16 +26,16 @@ export default abstract class Peer {
         const peer = new Peer(peerOption);
         
         peer.on('ready', function() {
-            console.log(peer.version, peer.subversion, peer.bestHeight);
+            Messages.answer(`Ready: ${peer.version}, ${peer.subversion}, ${peer.bestHeight}`);
         });
         peer.on('connect', function() {
-            console.log("connect");
+            Messages.answer('Connect');
         });
         peer.on('error', function() {
-            console.log("error");
+            Messages.error('error');
         });
         peer.on('disconnect', function() {
-            console.log('connection closed');
+            Messages.error('connection closed');
         });
         
         peer.connect();
