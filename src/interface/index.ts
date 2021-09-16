@@ -7,12 +7,14 @@ const Ducatus = require('@ducatus/bitcore-p2p');
 
 export default class ProgramInterface {
 
-    public modules: { name: string, peer: any }[] = [
+    public modules: { name: string, peer?: any, web3?: boolean }[] = [
         { name: 'Bitcoin', peer: Btc.Peer }, 
         { name: 'Bitcoin Cash', peer: Cash.Peer }, 
         { name: 'Doge', peer: Doge.Peer }, 
         { name: 'LiteCoin', peer: Btc.Peer }, 
-        { name: 'Ducatus', peer: Ducatus.Peer }
+        { name: 'Ducatus', peer: Ducatus.Peer },
+        { name: 'Etherium(ws)', web3: true },
+        { name: 'DucatusX(ws)', web3: true }
     ];
  
     public async start() {
@@ -28,13 +30,14 @@ export default class ProgramInterface {
         }
         const host = Messages.getHost();
         const port = Messages.getPort();
-        const network = Messages.getNetwork();
+        const network = !this.modules[indexModule].web3 && Messages.getNetwork();
 
         Peer.check({
             host,
             port,
             network,
-            Peer: this.modules[indexModule].peer
+            Peer: this.modules[indexModule].peer,
+            web3: this.modules[indexModule].web3
         });
     }
 }

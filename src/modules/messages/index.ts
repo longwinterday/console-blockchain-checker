@@ -26,7 +26,7 @@ export default abstract class Messages {
         console.log('\x1b[31m');    
     }
 
-    public static choiceChain(modules: { name: string, peer: any }[]) {
+    public static choiceChain(modules: { name: string, peer?: any, web3?: boolean }[]) {
         this.setTitleColor();
         console.log('Choice blockchain');
 
