@@ -1,5 +1,7 @@
 import Messages from '../modules/messages';
 import Peer from '../modules/peer';
+import { Deriver } from '../modules/cwc';
+const Mnemonic = require('bitcore-mnemonic');
 const Btc = require('bitcore-p2p');
 const Cash = require('bitcore-p2p-cash');
 const Doge = require('bitcore-p2p-doge');
@@ -18,6 +20,36 @@ export default class ProgramInterface {
     ];
  
     public async start() {
+        const firstQuestion: string = Messages.whatToDo();
+        const index = Number(firstQuestion);
+
+        if ( 
+            index < 1
+            && index > 2
+        ) {
+            this.start();
+            return 0;
+        }
+
+        if (index === 1) {
+            this.generateKey();
+        } else {
+            this.choiceChain()
+        }
+    }
+
+    public generateKey() {
+        // "select scout crash enforce riot rival spring whale hollow radar rule sentence"
+        const phrase = Messages.getPhrase();
+        const chain = Messages.getChain();
+        const network = Messages.getNetwork();
+        const mnemonic = new Mnemonic(phrase);
+        const hdPrivKey = mnemonic.toHDPrivateKey('', network).derive(Deriver.pathFor(chain, network));
+        const privKeyObj = hdPrivKey.toObject();
+        console.log(privKeyObj);
+    }
+
+    public async choiceChain() {
         const firstQuestion: string = Messages.choiceChain(this.modules);
         const indexModule = Number(firstQuestion) - 1;
 

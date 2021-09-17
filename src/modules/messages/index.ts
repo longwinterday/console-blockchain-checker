@@ -26,6 +26,28 @@ export default abstract class Messages {
         console.log('\x1b[31m');    
     }
 
+    public static whatToDo() {
+        this.setTitleColor();
+        console.log('What to do');
+
+        this.setListColor();
+        console.log('1. Generat key by mnemonic.');
+        console.log('2. Check peer.');
+
+        this.setQuestionColor();
+        return rs.question('Specify but provide a number: ');
+    } 
+
+    public static getPhrase() {
+        this.setQuestionColor();
+        return rs.question('Input phrase: ');
+    } 
+
+    public static getChain() {
+        this.setQuestionColor();
+        return rs.question('Input chain(DUC, BTC...): ');
+    } 
+
     public static choiceChain(modules: { name: string, peer?: any, web3?: boolean }[]) {
         this.setTitleColor();
         console.log('Choice blockchain');
