@@ -28,11 +28,23 @@ export default abstract class Messages {
 
     public static whatToDo() {
         this.setTitleColor();
-        console.log('What to do');
+        console.log('What to do?');
 
         this.setListColor();
-        console.log('1. Generat key by mnemonic.');
+        console.log('1. Mnemonic.');
         console.log('2. Check peer.');
+
+        this.setQuestionColor();
+        return rs.question('Specify but provide a number: ');
+    } 
+
+    public static mnemonicLib() {
+        this.setTitleColor();
+        console.log('Mnemonic');
+
+        this.setListColor();
+        console.log('1. Generate keys.');
+        console.log('2. Get phrase.');
 
         this.setQuestionColor();
         return rs.question('Specify but provide a number: ');

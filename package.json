@@ -4,7 +4,8 @@
   "description": "",
   "main": "./ts_build/index",
   "scripts": {
-    "start": "npm run tsc && node ts_build/index.js",
+    "start": "node ts_build/index.js",
+    "build": "npm run tsc",
     "tsc": "tsc"
   },
   "author": "Terlibin Oleg",
