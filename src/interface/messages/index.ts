@@ -2,6 +2,22 @@ import rs from 'readline-sync';
 
 export default abstract class Messages {      
 
+    public static networks = [
+        'mainnet',
+        'testnet'
+    ]
+
+    public static chains = [
+        'BTC',
+        'BCH',
+        'DUC',
+        'DUCX',
+        'DOGE',
+        'LTC',
+        'ETH',
+        'XRP'
+    ]
+
     public static setDefaultColor(): void {
         console.log('\x1b[0m');    
     }
@@ -55,9 +71,21 @@ export default abstract class Messages {
         return rs.question('Input phrase: ');
     } 
 
-    public static getChain() {
+    public static getChain(): string {
+        this.setTitleColor();
+        console.log('Choice chain');
+
+        this.setListColor();
+        this.chains.forEach((chain, index) => {
+            const string = `${index + 1}. ${chain}`;
+            console.log(string);
+        });
+
         this.setQuestionColor();
-        return rs.question('Input chain(DUC, BTC...): ');
+        const indexChain = rs.question('Input number chain: ');
+        const index = Number(indexChain);
+
+        return this.chains[Number(index) - 1];
     } 
 
     public static choiceChain(modules: { name: string, peer?: any, web3?: boolean }[]) {
@@ -84,9 +112,21 @@ export default abstract class Messages {
         return rs.question('Input port: ');
     }
 
-    public static getNetwork() {
+    public static getNetwork(): string {
+        this.setTitleColor();
+        console.log('Choice network');
+
+        this.setListColor();
+        this.networks.forEach((network, index) => {
+            const string = `${index + 1}. ${network}`;
+            console.log(string);
+        });
+
         this.setQuestionColor();
-        return rs.question('Input network: ');
+        const indexNetwork = rs.question('Input number network: ');
+        const index = Number(indexNetwork);
+
+        return this.networks[Number(index) - 1];
     }
 
     public static answer(text: string) {
