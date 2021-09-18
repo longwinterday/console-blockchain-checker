@@ -35,11 +35,13 @@ export default abstract class MnemonicController {
         const { xpubkey } = hdPrivKey;
         const { xprivkey } = privKeyObj;
         const pubKey = hdPrivKey.publicKey.toString();
+        const privateKey = hdPrivKey.privateKey.toString();
         const address = Deriver.deriveAddress(chain, network, xpubkey, 0, false);
         
         Messages.answer('xpubkey: ' + xpubkey);
         Messages.answer('xprivkey: ' + xprivkey);
         Messages.answer('public key: ' + pubKey);
+        Messages.answer('private key: ' + privateKey);
         Messages.answer('addres: ' + address);
     }
 
