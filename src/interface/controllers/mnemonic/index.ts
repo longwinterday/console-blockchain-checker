@@ -25,11 +25,11 @@ export default abstract class MnemonicController {
     
     public static generate() {
         // "select scout crash enforce riot rival spring whale hollow radar rule sentence"
-        const phrase = Messages.getPhrase();
+        // const phrase = Messages.getPhrase();
         const chain = Messages.getChain();
         const network = Messages.getNetwork();
 
-        const mnemonic = new Mnemonic(phrase);
+        const mnemonic = new Mnemonic();
         const hdPrivKey = mnemonic.toHDPrivateKey('', network).derive(Deriver.pathFor(chain, network));
         const privKeyObj = hdPrivKey.toObject();
         const { xpubkey } = hdPrivKey;
