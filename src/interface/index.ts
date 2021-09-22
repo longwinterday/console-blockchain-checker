@@ -1,6 +1,6 @@
 import Messages from './messages';
 import PeerController from './controllers/peer';
-import MnemonicController from './controllers/mnemonic';
+import KeysController from './controllers/keys';
 
 export default class ProgramInterface {
 
@@ -17,7 +17,7 @@ export default class ProgramInterface {
         }
 
         if (index === 1) {
-            MnemonicController.start();
+            KeysController.start();
         } else {
             PeerController.check();
         }

@@ -47,20 +47,22 @@ export default abstract class Messages {
         console.log('What to do?');
 
         this.setListColor();
-        console.log('1. Mnemonic.');
+        console.log('1. Keys.');
         console.log('2. Check peer.');
 
         this.setQuestionColor();
         return rs.question('Specify but provide a number: ');
     } 
 
-    public static mnemonicLib() {
+    public static keysConttroller() {
         this.setTitleColor();
-        console.log('Mnemonic');
+        console.log('Keys');
 
         this.setListColor();
-        console.log('1. Generate keys.');
-        console.log('2. Get phrase.');
+        console.log('1. Generate keys(master and chain).');
+        console.log('2. Get mnemonic phrase.');
+        console.log('3. Get chain pub key from master private key(BIP44).');
+        console.log('4. Get fucking key.');
 
         this.setQuestionColor();
         return rs.question('Specify but provide a number: ');
@@ -137,5 +139,15 @@ export default abstract class Messages {
     public static error(text: string) {
         this.setErrorColor();
         console.log(text);
+    }
+
+    public static getMasterPrivateKey() {
+        this.setQuestionColor();
+        return rs.question('Input master private key: ');
+    }
+
+    public static getBIPPath() {
+        this.setQuestionColor();
+        return rs.question('Input BIP44 path: ');
     }
 }
