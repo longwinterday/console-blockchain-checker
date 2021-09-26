@@ -4,8 +4,22 @@ import KeysController from './controllers/keys';
 
 export default class ProgramInterface {
 
+    public static menuList = [
+        { 
+            text: 'Keys.' , 
+            func:  KeysController.start
+        },
+        { 
+            text: 'Check peer.' , 
+            func: PeerController.check
+        }
+    ]
+
     public async start() {
-        const firstQuestion: string = Messages.whatToDo();
+        const firstQuestion: string = Messages.renderList({
+            title: "What to do?:",
+            list: ProgramInterface.menuList
+        });
         const index = Number(firstQuestion);
 
         if ( 
@@ -16,11 +30,7 @@ export default class ProgramInterface {
             return 0;
         }
 
-        if (index === 1) {
-            KeysController.start();
-        } else {
-            PeerController.check();
-        }
+        ProgramInterface.menuList[index - 1].func();
     }
 
 }

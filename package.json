@@ -4,7 +4,7 @@
   "description": "",
   "main": "./ts_build/index",
   "scripts": {
-    "start": "node ts_build/index.js",
+    "start": "npm run build && node ts_build/index.js",
     "build": "npm run tsc",
     "tsc": "tsc"
   },

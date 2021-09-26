@@ -7,7 +7,10 @@
       "newLine": "lf",
       "target": "es5",
       "outDir": "ts_build",
-      "strict": true
+      "strict": true,
+      "declaration": true,
+      "declarationMap": true,
+      "sourceMap": true
     },
     "include": [
         "./src/**/*.ts"

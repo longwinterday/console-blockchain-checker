@@ -1,55 +1,97 @@
 import Messages from '../../messages';
 import { 
     Deriver, 
-    BitcoreLib 
+    BitcoreLib,
+    BitcoreLibCash,
+    BitcoreLibDoge,
+    BitcoreLibLtc,
+    DucatusLib
 } from '../../../modules/cwc';
 const Mnemonic = require('bitcore-mnemonic');
 
 export default abstract class KeysController { 
 
+    public static networks = [
+        { text: 'mainnet'},
+        { text: 'testnet'}
+    ]
+
+    public static chains = [
+        { text: 'BTC', provider: BitcoreLib },
+        { text: 'BCH', provider: BitcoreLibCash },
+        { text: 'DUC', provider: DucatusLib },
+        { text: 'DUCX', provider: DucatusLib},
+        { text: 'DOGE', provider: BitcoreLibDoge},
+        { text: 'LTC', provider: BitcoreLibLtc},
+        { text: 'ETH', provider: BitcoreLib},
+        { text: 'XRP', provider: BitcoreLib}
+    ]
+
+    public static menuList = [
+        { 
+            text: 'Generate keys.' , 
+            func: this.generateKeys
+        },
+        { 
+            text: 'Get mnemonic phrase.' , 
+            func: this.getPhrase
+        }
+    ]
+
     public static start() {
-        const firstQuestion: string = Messages.keysConttroller();
+        const firstQuestion: string = Messages.renderList({
+            title: "Keys:",
+            list: KeysController.menuList
+        });
         const index = Number(firstQuestion);
 
         if ( 
             index < 1
-            && index > 3
+            && index > this.menuList.length
         ) {
             this.start();
             return 0;
         }
 
-        if (index === 1) {
-            this.generate();
-        } else if (index === 2 ) {
-            this.getPhrase();
-        } else if (index === 3) {
-            this.getChainPubKey();
-        } else {
-            this.getPublicKeyFromHDPublicKey();
-        }
+        KeysController.menuList[index - 1].func();
     }
     
-    public static generate() {
+    public static generateKeys() {
         // "select scout crash enforce riot rival spring whale hollow radar rule sentence"
-        // const phrase = Messages.getPhrase();
-        const chain = Messages.getChain();
-        const network = Messages.getNetwork();
+        const phrase = Messages.getPhrase();
+        const chain = Messages.renderList({
+            title: 'Choice chain',
+            list: KeysController.chains
+        });
+        const chainIndex = Number(chain);
+        const chainItem = KeysController.chains[Number(chainIndex) - 1];
+        const chainName = KeysController.chains[Number(chainIndex) - 1].text;
 
-        const mnemonic = new Mnemonic();
-        const hdPrivKey = mnemonic.toHDPrivateKey('', network).derive(Deriver.pathFor(chain, network));
-        const privKeyObj = hdPrivKey.toObject();
-        const { xpubkey } = hdPrivKey;
-        const { xprivkey } = privKeyObj;
-        const pubKey = hdPrivKey.publicKey.toString();
-        const privateKey = hdPrivKey.privateKey.toString();
-        const address = Deriver.deriveAddress(chain, network, xpubkey, 0, false);
+        let network = Messages.renderList({
+            title: 'Choice network',
+            list: KeysController.networks
+        });
+        const networkIndex = Number(network);
+        network = KeysController.networks[Number(networkIndex) - 1].text;
         
-        Messages.answer('XPubkey: ' + xpubkey);
-        Messages.answer('XPrivkey: ' + xprivkey);
-        Messages.answer('Public key: ' + pubKey);
-        Messages.answer('Private key: ' + privateKey);
-        Messages.answer('Addres: ' + address);
+        const mnemonic = new Mnemonic();
+        const seed = mnemonic.toSeed(phrase);
+
+        const HDPrivateMasterKey = chainItem.provider.HDPrivateKey.fromSeed(seed, network);
+        Messages.answer('HD master public key: ' + HDPrivateMasterKey.xprivkey);
+        Messages.answer('HD master private key: ' + HDPrivateMasterKey.xpubkey);
+
+        const path = Deriver.pathFor(chainName, network);
+        Messages.answer('Path: ' + path);
+
+        const HDChainPrivateKey = HDPrivateMasterKey.derive(path);
+        Messages.answer('HD master public key: ' + HDChainPrivateKey.xprivkey);
+        Messages.answer('HD master private key: ' + HDChainPrivateKey.xpubkey);
+        Messages.answer('Public key by chain: ' + HDChainPrivateKey.publicKey.toString());
+        Messages.answer('Private key by chain: ' + HDChainPrivateKey.privateKey.toString());
+
+        const address = HDChainPrivateKey.publicKey.toAddress(network);
+        Messages.answer('Address chain: ' + address);
     }
 
     public static getPhrase() {
@@ -59,24 +101,4 @@ export default abstract class KeysController {
         Messages.answer(phrase);
     }
 
-    public static getChainPubKey() {
-        const masterPrivateKey = Messages.getMasterPrivateKey();
-        const path = Messages.getBIPPath();
-        const masterKeys = new BitcoreLib.HDPrivateKey(masterPrivateKey);
-        const chainPubKey = masterKeys.deriveChild(path).toString();
-
-        Messages.answer('Chain pub key: ' + chainPubKey);
-    }
-
-    public static getPublicKeyFromHDPublicKey() {
-        const xPubKey = Messages.getMasterPrivateKey();
-        const path = Messages.getBIPPath();
-        const xPub = new BitcoreLib.HDPublicKey(xPubKey);
-        const pub = xPub.deriveChild(path).publicKey;
-
-        Messages.answer('Pub key: ' + pub);
-    }
-
-
-    
 }

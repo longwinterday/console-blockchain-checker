@@ -42,27 +42,15 @@ export default abstract class Messages {
         console.log('\x1b[31m');    
     }
 
-    public static whatToDo() {
+    public static renderList({ title, list }: any) {
         this.setTitleColor();
-        console.log('What to do?');
+        console.log(title);
 
         this.setListColor();
-        console.log('1. Keys.');
-        console.log('2. Check peer.');
-
-        this.setQuestionColor();
-        return rs.question('Specify but provide a number: ');
-    } 
-
-    public static keysConttroller() {
-        this.setTitleColor();
-        console.log('Keys');
-
-        this.setListColor();
-        console.log('1. Generate keys(master and chain).');
-        console.log('2. Get mnemonic phrase.');
-        console.log('3. Get chain pub key from master private key(BIP44).');
-        console.log('4. Get fucking key.');
+        list.forEach((unit: any, index: number) => {
+            const string = `${index + 1}. ${unit.text}`;
+            console.log(string);
+        });
 
         this.setQuestionColor();
         return rs.question('Specify but provide a number: ');
@@ -140,14 +128,5 @@ export default abstract class Messages {
         this.setErrorColor();
         console.log(text);
     }
-
-    public static getMasterPrivateKey() {
-        this.setQuestionColor();
-        return rs.question('Input master private key: ');
-    }
-
-    public static getBIPPath() {
-        this.setQuestionColor();
-        return rs.question('Input BIP44 path: ');
-    }
+    
 }
