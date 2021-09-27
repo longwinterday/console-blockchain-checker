@@ -57,7 +57,8 @@ export default abstract class KeysController {
     }
     
     public static generateKeys() {
-        // "select scout crash enforce riot rival spring whale hollow radar rule sentence"
+        // First mnemonic phrase: "select scout crash enforce riot rival spring whale hollow radar rule sentence"
+        // Second mnemonic phrase: "beach brick claw bright around aspect tumble lake phone extend expose grunt"
         const phrase = Messages.getPhrase();
         const chain = Messages.renderList({
             title: 'Choice chain',
@@ -85,10 +86,11 @@ export default abstract class KeysController {
         Messages.answer('Path: ' + path);
 
         const HDChainPrivateKey = HDPrivateMasterKey.derive(path);
-        Messages.answer('HD master public key: ' + HDChainPrivateKey.xprivkey);
         Messages.answer('HD master private key: ' + HDChainPrivateKey.xpubkey);
-        Messages.answer('Public key by chain: ' + HDChainPrivateKey.publicKey.toString());
+        Messages.answer('HD master public key: ' + HDChainPrivateKey.xprivkey);
         Messages.answer('Private key by chain: ' + HDChainPrivateKey.privateKey.toString());
+        Messages.answer('private key(WIF): ' + HDChainPrivateKey.privateKey.toWIF());
+        Messages.answer('Public key by chain: ' + HDChainPrivateKey.publicKey.toString());
 
         const address = HDChainPrivateKey.publicKey.toAddress(network);
         Messages.answer('Address chain: ' + address);
