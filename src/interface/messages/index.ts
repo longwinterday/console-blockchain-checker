@@ -18,6 +18,8 @@ export default abstract class Messages {
         'ETH',
         'XRP'
     ];
+    
+    public static timer: any;
 
     public static setDefaultColor(): void {
         console.log('\x1b[0m');    

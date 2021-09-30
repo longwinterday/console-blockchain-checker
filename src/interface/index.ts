@@ -1,6 +1,7 @@
 import Messages from './messages';
 import PeerController from './controllers/peer';
 import KeysController from './controllers/keys';
+import Web3Controller from './controllers/web3';
 
 export default class ProgramInterface {
 
@@ -12,6 +13,10 @@ export default class ProgramInterface {
         { 
             title: 'Check peer.' , 
             func: PeerController.check
+        },
+        {
+            title: 'Web3',
+            func: Web3Controller.start
         }
     ]
 
@@ -31,6 +36,8 @@ export default class ProgramInterface {
         }
 
         ProgramInterface.menuList[index - 1].func();
+
+        Messages.setDefaultColor();
     }
 
 }
