@@ -6,18 +6,18 @@ export default class ProgramInterface {
 
     public static menuList = [
         { 
-            text: 'Keys.' , 
+            title: 'Keys.' , 
             func:  KeysController.start
         },
         { 
-            text: 'Check peer.' , 
+            title: 'Check peer.' , 
             func: PeerController.check
         }
     ]
 
     public async start() {
         const firstQuestion: string = Messages.renderList({
-            title: "What to do?:",
+            title: 'What to do?:',
             list: ProgramInterface.menuList
         });
         const index = Number(firstQuestion);

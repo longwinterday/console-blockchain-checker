@@ -4,8 +4,9 @@ export default abstract class Messages {
 
     public static networks = [
         'mainnet',
+        'livenet',
         'testnet'
-    ]
+    ];
 
     public static chains = [
         'BTC',
@@ -16,13 +17,14 @@ export default abstract class Messages {
         'LTC',
         'ETH',
         'XRP'
-    ]
+    ];
 
     public static setDefaultColor(): void {
         console.log('\x1b[0m');    
     }
 
     public static setTitleColor(): void {
+        console.log('\x1b[1m'); 
         console.log('\x1b[34m');    
     }
 
@@ -31,16 +33,20 @@ export default abstract class Messages {
     }
 
     public static setQuestionColor(): void {
+        console.log('\x1b[1m'); 
         console.log('\x1b[33m');    
     }
 
     public static setAnswerColor(): void {
+        console.log('\x1b[1m'); 
         console.log('\x1b[32m');    
     }
 
     public static setErrorColor(): void {
+        console.log('\x1b[1m'); 
         console.log('\x1b[31m');    
     }
+
 
     public static renderList({ title, list }: any) {
         this.setTitleColor();
@@ -48,7 +54,7 @@ export default abstract class Messages {
 
         this.setListColor();
         list.forEach((unit: any, index: number) => {
-            const string = `${index + 1}. ${unit.text}`;
+            const string = `${index + 1}. ${unit.title}`;
             console.log(string);
         });
 
@@ -56,9 +62,9 @@ export default abstract class Messages {
         return rs.question('Specify but provide a number: ');
     } 
 
-    public static getPhrase() {
+    public static getPath() {
         this.setQuestionColor();
-        return rs.question('Input phrase: ');
+        return rs.question('Input path: ');
     } 
 
     public static getChain(): string {
@@ -78,13 +84,13 @@ export default abstract class Messages {
         return this.chains[Number(index) - 1];
     } 
 
-    public static choiceChain(modules: { name: string, peer?: any, web3?: boolean }[]) {
+    public static choiceChain(modules: { title: string, peer?: any, web3?: boolean }[]) {
         this.setTitleColor();
-        console.log('Choice blockchain');
+        console.log('Choice blockchain: ');
 
         this.setListColor();
         modules.forEach((module, index) => {
-            const string = `${index + 1}. ${module.name}`;
+            const string = `${index + 1}. ${module.title}`;
             console.log(string);
         });
 
@@ -92,19 +98,9 @@ export default abstract class Messages {
         return rs.question('Specify but provide a number: ');
     }
 
-    public static getHost() {
-        this.setQuestionColor();
-        return rs.question('Input host: ');
-    }
-
-    public static getPort() {
-        this.setQuestionColor();
-        return rs.question('Input port: ');
-    }
-
     public static getNetwork(): string {
         this.setTitleColor();
-        console.log('Choice network');
+        console.log('Choice network: ');
 
         this.setListColor();
         this.networks.forEach((network, index) => {
@@ -127,6 +123,16 @@ export default abstract class Messages {
     public static error(text: string) {
         this.setErrorColor();
         console.log(text);
+    }
+
+    public static accent(text: string) {
+        this.setTitleColor();
+        console.log(text);
+    }
+
+    public static getString(text: string) {
+        this.setQuestionColor();
+        return rs.question(text);
     }
     
 }

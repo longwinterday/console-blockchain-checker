@@ -15,6 +15,7 @@ export class DUCTxProvider extends BTCTxProvider {
       return new this.lib.Transaction.UnspentOutput(btcUtxo);
     });
     let tx = new this.lib.Transaction().from(btcUtxos);
+
     if (fee) {
       tx.fee(fee);
     }
@@ -27,6 +28,7 @@ export class DUCTxProvider extends BTCTxProvider {
     for (const recipient of recipients) {
       tx.to(recipient.address, parseInt(recipient.amount));
     }
+    
     return tx.uncheckedSerialize();
   }
 }
