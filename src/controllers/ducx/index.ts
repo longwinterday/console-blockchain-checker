@@ -1,5 +1,5 @@
 import Web3 from "web3";
-import Messages from '../../messages';
+import Messages from '../messages';
 
 export default abstract class DucxController {
 

@@ -1,14 +1,14 @@
-import Messages from './messages';
-import PeerController from './controllers/peer';
-import KeysController from './controllers/keys';
-import Web3Controller from './controllers/web3';
-import DucxController from './controllers/ducx';
+import Messages from '../messages';
+import PeerController from '../peer';
+import KeysController from '../keys';
+import Web3Controller from '../web3';
+import DucxController from '../ducx';
 
 export default class ProgramInterface {
 
     public static menuList = [
         { 
-            title: 'Keys.' , 
+            title: 'HD Keys' , 
             func:  KeysController.start
         },
         { 
@@ -16,18 +16,18 @@ export default class ProgramInterface {
             func: PeerController.check
         },
         {
-            title: 'Web3',
+            title: 'Ethereum',
             func: Web3Controller.start
         },
         {
-            title: 'Ducx',
+            title: 'Ducx blockchain',
             func: DucxController.start
         }
     ]
 
     public async start() {
         const firstQuestion: string = Messages.renderList({
-            title: 'What to do?:',
+            title: 'Input number:',
             list: ProgramInterface.menuList
         });
         const index = Number(firstQuestion);

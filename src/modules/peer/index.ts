@@ -1,4 +1,4 @@
-import Messages from '../../interface/messages';
+import Messages from '../../controllers/messages';
 import Web3 from 'web3';
 
 export default abstract class Peer {

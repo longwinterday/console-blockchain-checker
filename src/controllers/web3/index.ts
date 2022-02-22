@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import process from 'process'
-import Messages from '../../messages';
+import Messages from '../messages';
 
 export default abstract class Web3Controller {
 

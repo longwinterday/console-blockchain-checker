@@ -1,5 +1,5 @@
-import Messages from '../../messages';
-import Peer from '../../../modules/peer';
+import Messages from '../messages';
+import Peer from '../../modules/peer';
 const Btc = require('bitcore-p2p');
 const Cash = require('bitcore-p2p-cash');
 const Doge = require('bitcore-p2p-doge');
@@ -17,27 +17,27 @@ export default abstract class PeerController {
         { title: 'DucatusX(WebSocket)', web3: true }
     ];
 
-    public static check() {
-        const firstQuestion: string = Messages.choiceChain(this.modules);
+    public static async check() {
+        const firstQuestion: string = Messages.choiceChain(PeerController.modules);
         const indexModule = Number(firstQuestion) - 1;
 
         if ( 
             indexModule < 0
-            && indexModule > this.modules.length - 1
+            && indexModule > PeerController.modules.length - 1
         ) {
             this.check();
             return 0;
         }
         const host = Messages.getString('Input host: ');
         const port = Messages.getString('Input port: ');
-        const network = !this.modules[indexModule].web3 && Messages.getNetwork();
+        const network = !PeerController.modules[indexModule].web3 && Messages.getNetwork();
 
-        Peer.check({
+        await Peer.check({
             host,
             port,
             network,
-            Peer: this.modules[indexModule].peer,
-            web3: this.modules[indexModule].web3
+            Peer: PeerController.modules[indexModule].peer,
+            web3: PeerController.modules[indexModule].web3
         });
       
     }

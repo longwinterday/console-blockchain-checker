@@ -1,4 +1,4 @@
-import Messages from '../../messages';
+import Messages from '../messages';
 import { 
     Deriver, 
     BitcoreLib,
@@ -6,7 +6,7 @@ import {
     BitcoreLibDoge,
     BitcoreLibLtc,
     DucatusLib
-} from '../../../modules/cwc';
+} from '../../modules/cwc';
 const Mnemonic = require('bitcore-mnemonic');
 
 export default abstract class KeysController { 
@@ -30,7 +30,7 @@ export default abstract class KeysController {
 
     public static menuList = [
         { 
-            title: 'Get mnemonic phrase.' , 
+            title: 'Get mnemonic phrase.(BIP-39)' , 
             func: this.getPhrase
         },
         {
@@ -42,7 +42,7 @@ export default abstract class KeysController {
             func: this.generateKeys
         },
         {
-            title: 'Get mutisig address(P2SH)',
+            title: 'Get multisig address(P2SH)',
             func: this.createMultisigAddress
         },
         {
@@ -104,7 +104,7 @@ export default abstract class KeysController {
     }
 
     public static generateKeys() {
-        const phrase = Messages.getString('Input phrase: ');
+        const phrase = Messages.getString('Input phrase(optional): ');
         const chain = Messages.renderList({
             title: 'Choice chain:',
             list: KeysController.chains
