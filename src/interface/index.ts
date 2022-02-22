@@ -2,6 +2,7 @@ import Messages from './messages';
 import PeerController from './controllers/peer';
 import KeysController from './controllers/keys';
 import Web3Controller from './controllers/web3';
+import DucxController from './controllers/ducx';
 
 export default class ProgramInterface {
 
@@ -17,6 +18,10 @@ export default class ProgramInterface {
         {
             title: 'Web3',
             func: Web3Controller.start
+        },
+        {
+            title: 'Ducx',
+            func: DucxController.start
         }
     ]
 
