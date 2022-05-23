@@ -1,4 +1,6 @@
 import rs from 'readline-sync';
+import IRenderMenuList from '../../interfaces/render-menu-list';
+import IRenderList from '../../interfaces/render-list';
 
 export default abstract class Messages {      
 
@@ -50,18 +52,36 @@ export default abstract class Messages {
     }
 
 
-    public static renderList({ title, list }: any) {
+    public static renderMenuList({ title, list }: IRenderMenuList): string {
         this.setTitleColor();
         console.log(title);
 
         this.setListColor();
         list.forEach((unit: any, index: number) => {
-            const string = `${index + 1}. ${unit.title}`;
+            const string = `${index + 1}. ${unit.name} (${unit.annotation})`;
             console.log(string);
         });
 
         this.setQuestionColor();
-        return rs.question('Specify but provide a number: ');
+        const answer = rs.question('Specify but provide a number: ');
+        
+        return answer;
+    } 
+
+    public static renderList({ title, list }: IRenderList): string {
+        this.setTitleColor();
+        console.log(title);
+
+        this.setListColor();
+        list.forEach((unit: any, index: number) => {
+            const string = `${index + 1}. ${unit.name}`;
+            console.log(string);
+        });
+
+        this.setQuestionColor();
+        const answer = rs.question('Specify but provide a number: ');
+        
+        return answer;
     } 
 
     public static getPath() {

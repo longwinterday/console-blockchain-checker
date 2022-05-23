@@ -1,59 +1,46 @@
-import Messages from '../../controllers/messages';
-import Web3 from 'web3';
+import Messages from '../../libs/messages';
+import PeerLib from '../../libs/peer';
+import IPeerModule from '../../interfaces/peer-module';
+const Btc = require('bitcore-p2p');
+const Cash = require('bitcore-p2p-cash');
+const Doge = require('bitcore-p2p-doge');
+const Ducatus = require('@ducatus/bitcore-p2p');
 
 export default abstract class Peer {
 
-    public static check(option: any) {
-        const { 
-            host,
-            port,
-            network,
-            web3,
-            Peer,
-        } = option;
-        const peerOption: any = {};
+    public static peerModules: IPeerModule[] = [
+        { name: 'Bitcoin', module: Btc.Peer }, 
+        { name: 'Bitcoin Cash', module: Cash.Peer }, 
+        { name: 'Doge coin', module: Doge.Peer }, 
+        { name: 'Lite coin', module: Btc.Peer }, 
+        { name: 'Ducatus', module: Ducatus.Peer },
+        { name: 'Ethereum(WebSocket)', web3: true },
+        { name: 'DucatusX(WebSocket)', web3: true }
+    ];
 
-        if ( host ) {
-            peerOption.host = host;
-        }
+    public static async init() {
+        // const menuListNumber: string = Messages.choiceChain(Peer.modules);
+        // const indexModule = Number(menuListNumber) - 1;
 
-        if ( port ) {
-            peerOption.port = port;
-        }
+        // if ( 
+        //     indexModule < 0
+        //     && indexModule > PeerController.modules.length - 1
+        // ) {
+        //     this.check();
+        //     return 0;
+        // }
+        // const host = Messages.getString('Input host: ');
+        // const port = Messages.getString('Input port: ');
+        // const network = !PeerController.modules[indexModule].web3 && Messages.getNetwork();
 
-        if ( network ) {
-            peerOption.network = network;
-        }
-
-        if ( web3 ) {
-            const web3: Web3 = new Web3(new Web3.providers.WebsocketProvider(`ws://${host}:${port}`));
-            
-            web3.eth.net.isListening()
-                .then(() => {
-                    Messages.answer('Connect');
-                })
-                .catch(() => {
-                    Messages.error('Error');
-                });
-        } else {
-            const peer = new Peer(peerOption);
-        
-            peer.on('ready', function() {
-                Messages.answer(`Ready: ${peer.version}, ${peer.subversion}, ${peer.bestHeight}`);
-            });
-            peer.on('connect', function() {
-                Messages.answer('Connect');
-            });
-            peer.on('error', function() {
-                Messages.error('Error');
-            });
-            peer.on('disconnect', function() {
-                Messages.error('connection closed');
-            });
-            
-            peer.connect();
-        }
-
-        
+        // await PeerLib.check({
+        //     host,
+        //     port,
+        //     network,
+        //     Peer: PeerController.modules[indexModule].peer,
+        //     web3: PeerController.modules[indexModule].web3
+        // });
+      
     }
+    
 }

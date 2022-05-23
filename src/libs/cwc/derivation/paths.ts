@@ -1,7 +1,7 @@
 export const Paths = {
   BTC: {
-    mainnet: "m/44'/0'/",
-    livenet: "m/44'/0'/"
+    mainnet: "m/44'/1025'/",
+    livenet: "m/44'/1025'/"
   },
   BCH: {
     mainnet: "m/44'/145'/",
@@ -28,9 +28,9 @@ export const Paths = {
     testnet: "m/44'/2'/"
   },
   DUC: {
-    mainnet: "m/44'/1025'/",
-    livenet: "m/44'/1025'/",
-    testnet: "m/44'/1025'/"
+    mainnet: "m/44'/0'/",
+    livenet: "m/44'/0'/",
+    testnet: "m/44'/0'/"
   },
   DUCX: {
     mainnet: "m/44'/1060'/",
