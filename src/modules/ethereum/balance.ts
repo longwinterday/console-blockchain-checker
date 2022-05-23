@@ -6,7 +6,8 @@ export default abstract class Balance {
     private static web3: Web3;
 
     public static init() {
-        Balance.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`);
+        const infura = Messages.getString('Input infura api key: ');
+        Balance.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${infura}`);
         Balance.web3 = new Web3(Balance.provider);
 
         this.getBalance();

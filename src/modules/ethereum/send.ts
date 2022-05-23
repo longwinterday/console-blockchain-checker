@@ -6,7 +6,8 @@ export default abstract class Send {
     private static web3: Web3;
 
     public static init() {
-        Send.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`);
+        const infura = Messages.getString('Input infura api key: ');
+        Send.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${infura}`);
         Send.web3 = new Web3(Send.provider);
 
         this.sendEther();

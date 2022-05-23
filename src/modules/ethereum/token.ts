@@ -6,7 +6,8 @@ export default abstract class Token {
     private static web3: Web3;
 
     public static init() {
-        Token.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`);
+        const infura = Messages.getString('Input infura api key: ');
+        Token.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${infura}`);
         Token.web3 = new Web3(Token.provider);
 
         this.getBalanceForAddress();

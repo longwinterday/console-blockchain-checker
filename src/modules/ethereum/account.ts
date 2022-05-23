@@ -6,7 +6,8 @@ export default abstract class Account {
     private static web3: Web3;
 
     public static init() {
-        Account.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`);
+        const infura = Messages.getString('Input infura api key: ');
+        Account.provider = new Web3.providers.HttpProvider(`https://ropsten.infura.io/v3/${infura}`);
         Account.web3 = new Web3(Account.provider);
 
         this.createAccount();
