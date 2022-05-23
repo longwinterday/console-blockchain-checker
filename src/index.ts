@@ -20,12 +20,12 @@ export default class ProgramInterface {
         },
         {
             name: 'Ethereum',
-            annotation: '', 
+            annotation: 'You need infra api key', 
             module: Web3
         },
         {
-            name: 'Ducx blockchain',
-            annotation: '', 
+            name: 'Ducx',
+            annotation: 'Simple operations', 
             module: Ducx
         }
     ];

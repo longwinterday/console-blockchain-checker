@@ -11,7 +11,7 @@ export default abstract class Ducx {
     public static menuList: IMenu[] = [
         { 
             name: 'Create account.' , 
-            annotation: '12 words in English', 
+            annotation: '', 
             module: Account
         },
         {
