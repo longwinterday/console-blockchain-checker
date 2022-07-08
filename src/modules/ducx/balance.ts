@@ -6,7 +6,7 @@ export default abstract class Balance {
     private static web3: Web3;
 
     public static init() {
-        Balance.provider = new Web3.providers.HttpProvider(`http://212.24.108.89:8546`);
+        Balance.provider = new Web3.providers.WebsocketProvider(`wss://ducx-mainnet-api1-ws.rocknblock.io`);
         Balance.web3 = new Web3(Balance.provider);
 
         this.getBalance();
