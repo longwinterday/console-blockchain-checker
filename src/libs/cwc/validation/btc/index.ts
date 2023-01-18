@@ -1,5 +1,5 @@
-import { IValidation } from '..';
-const Bitcore = require('bitcore-lib');
+import { IValidation } from "..";
+const Bitcore = require("bitcore-lib");
 
 export class BtcValidation implements IValidation {
   validateAddress(network: string, address: string): boolean {

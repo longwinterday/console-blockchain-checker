@@ -1,10 +1,15 @@
-import rippleKeypairs from 'ripple-keypairs';
-import { IDeriver } from '..';
+import rippleKeypairs from "ripple-keypairs";
+import { IDeriver } from "..";
 
-const BitcoreLib = require('bitcore-lib');
+const BitcoreLib = require("bitcore-lib");
 
 export class XrpDeriver implements IDeriver {
-  deriveAddress(network: string, xpubkey: string, addressIndex: number, isChange: boolean) {
+  deriveAddress(
+    network: string,
+    xpubkey: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpub = new BitcoreLib.HDPublicKey(xpubkey, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;
@@ -13,7 +18,12 @@ export class XrpDeriver implements IDeriver {
     return address;
   }
 
-  derivePrivateKey(network: string, xPriv: string, addressIndex: number, isChange: boolean) {
+  derivePrivateKey(
+    network: string,
+    xPriv: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpriv = new BitcoreLib.HDPrivateKey(xPriv, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;

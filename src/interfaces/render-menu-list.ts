@@ -1,6 +1,6 @@
-import IMenu from './menu';
+import IMenu from "./menu";
 
-export default interface IRenderMenuList { 
-    title: string; 
-    list: IMenu[]; 
+export default interface IRenderMenuList {
+  title: string;
+  list: IMenu[];
 }

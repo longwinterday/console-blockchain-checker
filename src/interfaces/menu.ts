@@ -1,5 +1,5 @@
 export default interface IMenu {
-    name: string;
-    annotation: string; 
-    module:  any
+  name: string;
+  annotation: string;
+  module: any;
 }

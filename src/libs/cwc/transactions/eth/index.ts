@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
-import { Key } from '../../derivation';
-const utils = require('web3-utils');
+import { ethers } from "ethers";
+import { Key } from "../../derivation";
+const utils = require("web3-utils");
 export class ETHTxProvider {
   create(params: {
     recipients: Array<{ address: string; amount: string }>;
@@ -22,7 +22,7 @@ export class ETHTxProvider {
       to: address,
       data,
       value: utils.toHex(amount),
-      chainId
+      chainId,
     };
     return ethers.utils.serializeTransaction(txData);
   }
@@ -30,17 +30,17 @@ export class ETHTxProvider {
   getChainId(network: string) {
     let chainId = 1;
     switch (network) {
-      case 'testnet':
-      case 'kovan':
+      case "testnet":
+      case "kovan":
         chainId = 42;
         break;
-      case 'ropsten':
+      case "ropsten":
         chainId = 3;
         break;
-      case 'rinkeby':
+      case "rinkeby":
         chainId = 4;
         break;
-      case 'regtest':
+      case "regtest":
         chainId = 17;
         break;
       default:
@@ -55,17 +55,19 @@ export class ETHTxProvider {
     // To complain with new ethers
     let k = key.privKey;
     //@ts-ignore
-    if (k.substr(0, 2) != '0x') {
-      k = '0x' + k;
+    if (k.substr(0, 2) != "0x") {
+      k = "0x" + k;
     }
-    //@ts-ignore  
+    //@ts-ignore
     const signingKey = new ethers.utils.SigningKey(k);
     const signDigest = signingKey.signDigest.bind(signingKey);
     return signDigest(ethers.utils.keccak256(tx));
   }
 
   getSignature(params: { tx: string; key: Key }) {
-    const signatureHex = ethers.utils.joinSignature(this.getSignatureObject(params));
+    const signatureHex = ethers.utils.joinSignature(
+      this.getSignatureObject(params)
+    );
     return signatureHex;
   }
 
@@ -80,13 +82,13 @@ export class ETHTxProvider {
     const parsedTx = ethers.utils.parseTransaction(tx);
     const { nonce, gasPrice, gasLimit, to, value, data, chainId } = parsedTx;
     const txData = { nonce, gasPrice, gasLimit, to, value, data, chainId };
-    if (typeof signature == 'string') {
+    if (typeof signature == "string") {
       signature = ethers.utils.splitSignature(signature);
     }
     const signedTx = ethers.utils.serializeTransaction(txData, signature);
     const parsedTxSigned = ethers.utils.parseTransaction(signedTx);
     if (!parsedTxSigned.hash) {
-      throw new Error('Signature invalid');
+      throw new Error("Signature invalid");
     }
     return signedTx;
   }

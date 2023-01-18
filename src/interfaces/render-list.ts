@@ -1,6 +1,6 @@
-import IList from './list';
+import IList from "./list";
 
-export default interface IRenderList { 
-    title: string; 
-    list: IList[]; 
+export default interface IRenderList {
+  title: string;
+  list: IList[];
 }

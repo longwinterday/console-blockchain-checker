@@ -1,24 +1,26 @@
-import Messages from '../../libs/messages';
+import Messages from "../../libs/messages";
 import Web3 from "web3";
 
-export default abstract class Balance { 
-    private static provider: any;
-    private static web3: Web3;
+export default abstract class Balance {
+  private static provider: any;
+  private static web3: Web3;
 
-    public static init() {
-        Balance.provider = new Web3.providers.WebsocketProvider(`wss://ducx-mainnet-api1-ws.rocknblock.io`);
-        Balance.web3 = new Web3(Balance.provider);
+  public static init() {
+    Balance.provider = new Web3.providers.WebsocketProvider(
+      `wss://ducx-mainnet-api1-ws.rocknblock.io`
+    );
+    Balance.web3 = new Web3(Balance.provider);
 
-        this.getBalance();
-    }
-    
-    public static async getBalance() {
-        const address = Messages.getString('Input address: ');
-        
-        const balance = await Balance.web3.eth.getBalance(address);
-        const ducxBalance = Number(balance) / 1000000000000000000;
-        
-        Messages.answer('Balance:');
-        Messages.answer(`${balance} wei(${ducxBalance} DUCX)`);
-    }
+    this.getBalance();
+  }
+
+  public static async getBalance() {
+    const address = Messages.getString("Input address: ");
+
+    const balance = await Balance.web3.eth.getBalance(address);
+    const ducxBalance = Number(balance) / 1000000000000000000;
+
+    Messages.answer("Balance:");
+    Messages.answer(`${balance} wei(${ducxBalance} DUCX)`);
+  }
 }

@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
-import { Key } from '../../derivation';
+import * as _ from "lodash";
+import { Key } from "../../derivation";
 
 export class BTCTxProvider {
-  lib = require('bitcore-lib');
+  lib = require("bitcore-lib");
 
   selectCoins(
     recipients: Array<{ amount: number }>,
@@ -15,13 +15,16 @@ export class BTCTxProvider {
     }>,
     fee: number
   ) {
-    utxos = utxos.sort(function(a, b) {
+    utxos = utxos.sort(function (a, b) {
       return a.mintHeight - b.mintHeight;
     });
 
     let index = 0;
     let utxoSum = 0;
-    let recepientSum = recipients.reduce((sum, cur) => sum + Number(cur.amount), fee);
+    let recepientSum = recipients.reduce(
+      (sum, cur) => sum + Number(cur.amount),
+      fee
+    );
     while (utxoSum < recepientSum) {
       const utxo = utxos[index];
       utxoSum += Number(utxo.value);
@@ -30,15 +33,15 @@ export class BTCTxProvider {
     const filteredUtxos = utxos.slice(0, index);
     return filteredUtxos;
   }
-//@ts-ignore
+  //@ts-ignore
   create({ recipients, utxos = [], change, wallet, feeRate, fee }) {
     change = change || wallet.deriveAddress(wallet.addressIndex, true);
     const filteredUtxos = this.selectCoins(recipients, utxos, fee);
-    const btcUtxos = filteredUtxos.map(utxo => {
+    const btcUtxos = filteredUtxos.map((utxo) => {
       const btcUtxo = Object.assign({}, utxo, {
         amount: utxo.value / 1e8,
         txid: utxo.mintTxid,
-        outputIndex: utxo.mintIndex
+        outputIndex: utxo.mintIndex,
       });
       return new this.lib.Transaction.UnspentOutput(btcUtxo);
     });
@@ -59,11 +62,11 @@ export class BTCTxProvider {
   }
 
   getSignature(params: { tx: string; keys: Array<Key> }) {
-    throw new Error('function getSignature not implemented for UTXO coins');
+    throw new Error("function getSignature not implemented for UTXO coins");
   }
 
   applySignature(params: { tx: string; keys: Array<Key> }) {
-    throw new Error('function applySignature not implemented for UTXO coins');
+    throw new Error("function applySignature not implemented for UTXO coins");
   }
 
   getHash(params: { tx: string }) {
@@ -71,38 +74,47 @@ export class BTCTxProvider {
     return bitcoreTx.hash;
   }
 
-  sign(params: { tx: string; keys: Array<Key>; utxos: any[]; pubkeys?: any[]; threshold?: number; opts: any }) {
+  sign(params: {
+    tx: string;
+    keys: Array<Key>;
+    utxos: any[];
+    pubkeys?: any[];
+    threshold?: number;
+    opts: any;
+  }) {
     const { tx, keys, pubkeys, threshold, opts } = params;
     let utxos = params.utxos || [];
     let inputAddresses = this.getSigningAddresses({ tx, utxos });
     let bitcoreTx = new this.lib.Transaction(tx);
     let applicableUtxos = this.getRelatedUtxos({
       outputs: bitcoreTx.inputs,
-      utxos
+      utxos,
     });
     bitcoreTx.associateInputs(applicableUtxos, pubkeys, threshold, opts);
     //@ts-ignore
-    const privKeys = _.uniq(keys.map(key => key.privKey.toString()));
+    const privKeys = _.uniq(keys.map((key) => key.privKey.toString()));
     const signedTx = bitcoreTx.sign(privKeys).toString();
     return signedTx;
   }
-//@ts-ignore
+  //@ts-ignore
   getRelatedUtxos({ outputs, utxos }) {
     //@ts-ignore
-    let txids = outputs.map(output => output.toObject().prevTxId);
+    let txids = outputs.map((output) => output.toObject().prevTxId);
     //@ts-ignore
-    let applicableUtxos = utxos.filter(utxo => txids.includes(utxo.txid || utxo.mintTxid));
+    let applicableUtxos = utxos.filter((utxo) =>
+      txids.includes(utxo.txid || utxo.mintTxid)
+    );
     //@ts-ignore
-    return applicableUtxos.map(utxo => {
+    return applicableUtxos.map((utxo) => {
       const btcUtxo = Object.assign({}, utxo, {
         amount: utxo.value / Math.pow(10, 8),
         txid: utxo.mintTxid,
-        outputIndex: utxo.mintIndex
+        outputIndex: utxo.mintIndex,
       });
       return new this.lib.Transaction.UnspentOutput(btcUtxo);
     });
   }
-//@ts-ignore
+  //@ts-ignore
   getOutputsFromTx({ tx }) {
     //@ts-ignore
     return tx.outputs.map(({ script, satoshis }) => {
@@ -110,14 +122,14 @@ export class BTCTxProvider {
       return { address, satoshis };
     });
   }
-//@ts-ignore
+  //@ts-ignore
   getSigningAddresses({ tx, utxos }): string[] {
     let bitcoreTx = new this.lib.Transaction(tx);
     let applicableUtxos = this.getRelatedUtxos({
       outputs: bitcoreTx.inputs,
-      utxos
+      utxos,
     });
     //@ts-ignore
-    return applicableUtxos.map(utxo => utxo.address);
+    return applicableUtxos.map((utxo) => utxo.address);
   }
 }

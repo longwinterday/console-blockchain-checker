@@ -1,12 +1,12 @@
-import { BchDeriver } from './bch';
-import { BtcDeriver } from './btc';
-import { DogeDeriver } from './doge';
-import { DucDeriver } from './duc';
-import { DucxDeriver } from './ducx';
-import { EthDeriver } from './eth';
-import { LtcDeriver } from './ltc';
-import { Paths } from './paths';
-import { XrpDeriver } from './xrp';
+import { BchDeriver } from "./bch";
+import { BtcDeriver } from "./btc";
+import { DogeDeriver } from "./doge";
+import { DucDeriver } from "./duc";
+import { DucxDeriver } from "./ducx";
+import { EthDeriver } from "./eth";
+import { LtcDeriver } from "./ltc";
+import { Paths } from "./paths";
+import { XrpDeriver } from "./xrp";
 
 export interface Key {
   address: string;
@@ -15,9 +15,19 @@ export interface Key {
 }
 
 export interface IDeriver {
-  deriveAddress(network: string, xPub: string, addressIndex: number, isChange: boolean): string;
+  deriveAddress(
+    network: string,
+    xPub: string,
+    addressIndex: number,
+    isChange: boolean
+  ): string;
 
-  derivePrivateKey(network: string, xPriv: string, addressIndex: number, isChange: boolean): Key;
+  derivePrivateKey(
+    network: string,
+    xPriv: string,
+    addressIndex: number,
+    isChange: boolean
+  ): Key;
 }
 
 const derivers: { [chain: string]: IDeriver } = {
@@ -28,7 +38,7 @@ const derivers: { [chain: string]: IDeriver } = {
   DOGE: new DogeDeriver(),
   LTC: new LtcDeriver(),
   DUC: new DucDeriver(),
-  DUCX: new DucxDeriver()
+  DUCX: new DucxDeriver(),
 };
 
 export class DeriverProxy {
@@ -36,12 +46,34 @@ export class DeriverProxy {
     return derivers[chain];
   }
 
-  deriveAddress(chain: any, network: string, xpubKey: string, addressIndex: number, isChange: boolean) {
-    return this.get(chain).deriveAddress(network, xpubKey, addressIndex, isChange);
+  deriveAddress(
+    chain: any,
+    network: string,
+    xpubKey: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
+    return this.get(chain).deriveAddress(
+      network,
+      xpubKey,
+      addressIndex,
+      isChange
+    );
   }
 
-  derivePrivateKey(chain: any, network: string, privKey: string, addressIndex: number, isChange: boolean) {
-    return this.get(chain).derivePrivateKey(network, privKey, addressIndex, isChange);
+  derivePrivateKey(
+    chain: any,
+    network: string,
+    privKey: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
+    return this.get(chain).derivePrivateKey(
+      network,
+      privKey,
+      addressIndex,
+      isChange
+    );
   }
 
   pathFor(chain: string, network: string | number, account = 0) {

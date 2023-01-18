@@ -1,16 +1,28 @@
-const BitcoreLib = require('bitcore-lib');
-import { IDeriver } from '..';
+const BitcoreLib = require("bitcore-lib");
+import { IDeriver } from "..";
 export abstract class AbstractBitcoreLibDeriver implements IDeriver {
   public abstract bitcoreLib: any;
 
-  deriveAddress(network: string, pubKey: string, addressIndex: number, isChange: boolean) {
+  deriveAddress(
+    network: string,
+    pubKey: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpub = new this.bitcoreLib.HDPublicKey(pubKey, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;
-    return this.bitcoreLib.Address(xpub.derive(path).publicKey, network).toString();
+    return this.bitcoreLib
+      .Address(xpub.derive(path).publicKey, network)
+      .toString();
   }
 
-  derivePrivateKey(network: string, xPriv: string, addressIndex: number, isChange: boolean) {
+  derivePrivateKey(
+    network: string,
+    xPriv: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpriv = new this.bitcoreLib.HDPrivateKey(xPriv, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;

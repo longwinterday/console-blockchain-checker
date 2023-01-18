@@ -1,5 +1,5 @@
-import { IValidation } from '..';
-const BitcoreLtc = require('@ducatus/bitcore-lib');
+import { IValidation } from "..";
+const BitcoreLtc = require("@ducatus/bitcore-lib");
 
 export class DucValidation implements IValidation {
   validateAddress(network: string, address: string): boolean {

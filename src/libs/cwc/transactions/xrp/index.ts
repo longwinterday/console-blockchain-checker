@@ -1,17 +1,20 @@
-import { createHash } from 'crypto';
-import rippleBinaryCodec from 'ripple-binary-codec';
-import { RippleAPI } from 'ripple-lib';
+import { createHash } from "crypto";
+import rippleBinaryCodec from "ripple-binary-codec";
+import { RippleAPI } from "ripple-lib";
 // tslint:disable-next-line:no-submodule-imports
-import { Payment } from 'ripple-lib/dist/npm/transaction/payment';
+import { Payment } from "ripple-lib/dist/npm/transaction/payment";
 // tslint:disable-next-line:no-submodule-imports
-import { Instructions, TransactionJSON } from 'ripple-lib/dist/npm/transaction/types';
-import { Key } from '../../derivation';
+import {
+  Instructions,
+  TransactionJSON,
+} from "ripple-lib/dist/npm/transaction/types";
+import { Key } from "../../derivation";
 
 enum HashPrefix {
   // transaction plus signature to give transaction ID
   livenet = 0x54584e00,
   mainnet = 0x54584e00,
-  testnet = 0x73747800
+  testnet = 0x73747800,
 }
 export class XRPTxProvider {
   create(params: {
@@ -36,31 +39,31 @@ export class XRPTxProvider {
         address: from,
         maxAmount: {
           value: amountStr,
-          currency: 'XRP'
-        }
+          currency: "XRP",
+        },
       },
       destination: {
         address,
         amount: {
           value: amountStr,
-          currency: 'XRP'
-        }
-      }
+          currency: "XRP",
+        },
+      },
     };
     const instructions: Instructions = {
       fee: feeStr,
       sequence: nonce,
       //@ts-ignore
-      maxLedgerVersion: null
+      maxLedgerVersion: null,
     };
     const txJSON: TransactionJSON = {
-      TransactionType: 'Payment',
+      TransactionType: "Payment",
       Account: from,
       Destination: address,
       Amount: amount.toString(),
       Flags,
       Fee: fee.toString(),
-      Sequence: nonce
+      Sequence: nonce,
     };
     if (invoiceID) {
       payment.invoiceID = invoiceID;
@@ -70,8 +73,12 @@ export class XRPTxProvider {
       payment.destination.tag = tag;
       txJSON.DestinationTag = tag;
     }
-    schemaValidate('preparePaymentParameters', { address: from, payment, instructions });
-    schemaValidate('tx-json', txJSON);
+    schemaValidate("preparePaymentParameters", {
+      address: from,
+      payment,
+      instructions,
+    });
+    schemaValidate("tx-json", txJSON);
     return rippleBinaryCodec.encode(txJSON);
   }
 
@@ -83,7 +90,7 @@ export class XRPTxProvider {
       //@ts-ignore
       privateKey: key.privKey.toUpperCase(),
       //@ts-ignore
-      publicKey: key.pubKey.toUpperCase()
+      publicKey: key.pubKey.toUpperCase(),
     });
     return signedTx;
   }
@@ -94,7 +101,7 @@ export class XRPTxProvider {
   }
 
   getHash(params: { tx: string; network?: string }): string {
-    const { tx, network = 'mainnet' } = params;
+    const { tx, network = "mainnet" } = params;
     //@ts-ignore
     const prefix = HashPrefix[network].toString(16).toUpperCase();
     return this.sha512Half(prefix + tx);
@@ -112,9 +119,9 @@ export class XRPTxProvider {
   }
 
   sha512Half(hex: string): string {
-    return createHash('sha512')
-      .update(Buffer.from(hex, 'hex'))
-      .digest('hex')
+    return createHash("sha512")
+      .update(Buffer.from(hex, "hex"))
+      .digest("hex")
       .toUpperCase()
       .slice(0, 64);
   }

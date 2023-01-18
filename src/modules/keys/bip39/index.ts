@@ -1,17 +1,15 @@
+import Messages from "../../../libs/messages";
+const Mnemonic = require("bitcore-mnemonic");
 
-import Messages from '../../../libs/messages';
-const Mnemonic = require('bitcore-mnemonic');
+export default abstract class Bip39 {
+  public static init() {
+    this.getPhrase();
+  }
 
-export default abstract class Bip39 { 
+  public static getPhrase() {
+    const mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH);
+    const phrase = mnemonic.phrase;
 
-    public static init() {
-        this.getPhrase();
-    }
-    
-    public static getPhrase() {
-        const mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH);
-        const phrase = mnemonic.phrase;
-
-        Messages.answer(phrase);
-    }
+    Messages.answer(phrase);
+  }
 }

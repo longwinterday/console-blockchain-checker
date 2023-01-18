@@ -1,11 +1,11 @@
-import { BchValidation } from './bch';
-import { BtcValidation } from './btc';
-import { DogeValidation } from './doge';
-import { DucValidation } from './duc';
-import { DucxValidation } from './ducx';
-import { EthValidation } from './eth';
-import { LtcValidation } from './ltc';
-import { XrpValidation } from './xrp';
+import { BchValidation } from "./bch";
+import { BtcValidation } from "./btc";
+import { DogeValidation } from "./doge";
+import { DucValidation } from "./duc";
+import { DucxValidation } from "./ducx";
+import { EthValidation } from "./eth";
+import { LtcValidation } from "./ltc";
+import { XrpValidation } from "./xrp";
 
 export interface IValidation {
   validateAddress(network: string, address: string): boolean;
@@ -20,7 +20,7 @@ const validation: { [chain: string]: IValidation } = {
   DOGE: new DogeValidation(),
   LTC: new LtcValidation(),
   DUC: new DucValidation(),
-  DUCX: new DucxValidation()
+  DUCX: new DucxValidation(),
 };
 
 export class ValidationProxy {

@@ -1,13 +1,16 @@
-import baseX from 'base-x';
-import Bitcore from 'bitcore-lib';
-import { IValidation } from '..';
+import baseX from "base-x";
+import Bitcore from "bitcore-lib";
+import { IValidation } from "..";
 
-const RIPPLE_ALPHABET = 'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
+const RIPPLE_ALPHABET =
+  "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
 
 export class XrpValidation implements IValidation {
   validateAddress(_network: string, address: string): boolean {
     // First ensure it matches regex
-    const RippleAddressRegex = new RegExp(/^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/);
+    const RippleAddressRegex = new RegExp(
+      /^r[rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz]{27,35}$/
+    );
     if (!address.match(RippleAddressRegex)) {
       return false;
     }
@@ -39,12 +42,12 @@ export class XrpValidation implements IValidation {
     }
     const address = this.extractAddress(addressUri);
     const ripplePrefix = /ripple/i.exec(addressUri);
-    return !!ripplePrefix && this.validateAddress('livenet', address);
+    return !!ripplePrefix && this.validateAddress("livenet", address);
   }
-//@ts-ignore
+  //@ts-ignore
   private extractAddress(data) {
     const prefix = /^[a-z]+:/i;
     const params = /([\?\&](amount|dt)=(\d+([\,\.]\d+)?))+/i;
-    return data.replace(prefix, '').replace(params, '');
+    return data.replace(prefix, "").replace(params, "");
   }
 }

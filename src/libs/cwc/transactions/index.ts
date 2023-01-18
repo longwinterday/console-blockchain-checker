@@ -1,15 +1,15 @@
-import { BCHTxProvider } from './bch';
-import { BTCTxProvider } from './btc';
-import { DOGETxProvider } from './doge';
-import { DRC20TxProvider } from './drc20';
-import { DUCTxProvider } from './duc';
-import { DUCXTxProvider } from './ducx';
-import { DUCXMULTISIGTxProvider } from './ducx-multisig';
-import { ERC20TxProvider } from './erc20';
-import { ETHTxProvider } from './eth';
-import { ETHMULTISIGTxProvider } from './eth-multisig';
-import { LTCTxProvider } from './ltc';
-import { XRPTxProvider } from './xrp';
+import { BCHTxProvider } from "./bch";
+import { BTCTxProvider } from "./btc";
+import { DOGETxProvider } from "./doge";
+import { DRC20TxProvider } from "./drc20";
+import { DUCTxProvider } from "./duc";
+import { DUCXTxProvider } from "./ducx";
+import { DUCXMULTISIGTxProvider } from "./ducx-multisig";
+import { ERC20TxProvider } from "./erc20";
+import { ETHTxProvider } from "./eth";
+import { ETHMULTISIGTxProvider } from "./eth-multisig";
+import { LTCTxProvider } from "./ltc";
+import { XRPTxProvider } from "./xrp";
 
 const providers: any = {
   BTC: new BTCTxProvider(),
@@ -23,7 +23,7 @@ const providers: any = {
   DUC: new DUCTxProvider(),
   DUCX: new DUCXTxProvider(),
   DRC20: new DRC20TxProvider(),
-  DUCXMULTISIG: new DUCXMULTISIGTxProvider()
+  DUCXMULTISIG: new DUCXMULTISIGTxProvider(),
 };
 
 export class TransactionsProxy {

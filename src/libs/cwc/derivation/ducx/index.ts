@@ -1,8 +1,8 @@
-import { IDeriver } from '..';
+import { IDeriver } from "..";
 
-import utils from 'web3-utils';
+import utils from "web3-utils";
 
-const BitcoreLib = require('bitcore-lib');
+const BitcoreLib = require("bitcore-lib");
 
 export class DucxDeriver implements IDeriver {
   padTo32(msg: any) {
@@ -15,7 +15,12 @@ export class DucxDeriver implements IDeriver {
     return msg;
   }
 
-  deriveAddress(network: string, xpubkey: string, addressIndex: number, isChange: boolean) {
+  deriveAddress(
+    network: string,
+    xpubkey: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpub = new BitcoreLib.HDPublicKey(xpubkey, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;
@@ -28,18 +33,25 @@ export class DucxDeriver implements IDeriver {
     const x = ecPoint.getX().toBuffer({ size: 32 });
     const y = ecPoint.getY().toBuffer({ size: 32 });
     const paddedBuffer = Buffer.concat([x, y]);
-    const address = utils.keccak256(`0x${paddedBuffer.toString('hex')}`).slice(26);
+    const address = utils
+      .keccak256(`0x${paddedBuffer.toString("hex")}`)
+      .slice(26);
     return utils.toChecksumAddress(address);
   }
 
-  derivePrivateKey(network: string, xPriv: string, addressIndex: number, isChange: boolean) {
+  derivePrivateKey(
+    network: string,
+    xPriv: string,
+    addressIndex: number,
+    isChange: boolean
+  ) {
     const xpriv = new BitcoreLib.HDPrivateKey(xPriv, network);
     const changeNum = isChange ? 1 : 0;
     const path = `m/${changeNum}/${addressIndex}`;
     const derivedPrivKey = xpriv.derive(path);
-    const privKey = derivedPrivKey.privateKey.toString('hex');
+    const privKey = derivedPrivKey.privateKey.toString("hex");
     const pubKeyObj = derivedPrivKey.publicKey;
-    const pubKey = pubKeyObj.toString('hex');
+    const pubKey = pubKeyObj.toString("hex");
     const pubKeyBuffer = pubKeyObj.toBuffer();
     const address = this.addressFromPublicKeyBuffer(pubKeyBuffer);
     return { address, privKey, pubKey };

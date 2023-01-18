@@ -1,6 +1,6 @@
-import { ethers } from 'ethers';
-import { Key } from '../../derivation';
-const utils = require('web3-utils');
+import { ethers } from "ethers";
+import { Key } from "../../derivation";
+const utils = require("web3-utils");
 
 export class DUCXTxProvider {
   create(params: {
@@ -23,7 +23,7 @@ export class DUCXTxProvider {
       to: address,
       data,
       value: utils.toHex(amount),
-      chainId
+      chainId,
     };
     return ethers.utils.serializeTransaction(txData);
   }
@@ -31,11 +31,11 @@ export class DUCXTxProvider {
   getChainId(network: string) {
     let chainId = 0x6773;
     switch (network) {
-      case 'testnet':
+      case "testnet":
         chainId = 0x6772;
         break;
-      case 'livenet':
-      case 'mainnet':
+      case "livenet":
+      case "mainnet":
         chainId = 0x6773;
         break;
     }
@@ -46,9 +46,9 @@ export class DUCXTxProvider {
     const { tx, key } = params;
     // To complain with new ethers
     let k = key.privKey;
-    //@ts-ignore  
-    if (k.substr(0, 2) != '0x') {
-      k = '0x' + k;
+    //@ts-ignore
+    if (k.substr(0, 2) != "0x") {
+      k = "0x" + k;
     }
     //@ts-ignore
     const signingKey = new ethers.utils.SigningKey(k);
@@ -57,7 +57,9 @@ export class DUCXTxProvider {
   }
 
   getSignature(params: { tx: string; key: Key }) {
-    const signatureHex = ethers.utils.joinSignature(this.getSignatureObject(params));
+    const signatureHex = ethers.utils.joinSignature(
+      this.getSignatureObject(params)
+    );
     return signatureHex;
   }
 
@@ -72,13 +74,13 @@ export class DUCXTxProvider {
     const parsedTx = ethers.utils.parseTransaction(tx);
     const { nonce, gasPrice, gasLimit, to, value, data, chainId } = parsedTx;
     const txData = { nonce, gasPrice, gasLimit, to, value, data, chainId };
-    if (typeof signature == 'string') {
+    if (typeof signature == "string") {
       signature = ethers.utils.splitSignature(signature);
     }
     const signedTx = ethers.utils.serializeTransaction(txData, signature);
     const parsedTxSigned = ethers.utils.parseTransaction(signedTx);
     if (!parsedTxSigned.hash) {
-      throw new Error('Signature invalid');
+      throw new Error("Signature invalid");
     }
     return signedTx;
   }
